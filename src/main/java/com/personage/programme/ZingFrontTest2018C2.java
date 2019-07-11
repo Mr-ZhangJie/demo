@@ -1,4 +1,4 @@
-package com.personage.demo.pojo.programme;
+package com.personage.programme;
 
 import java.util.Scanner;
 
