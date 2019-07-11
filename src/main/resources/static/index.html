@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>个人简历</title>
+    <script src="//cdn.bootcss.com/angular.js/1.5.6/angular.min.js"></script>
+    <script>
+        var app=angular.module("myApp",[]);
+        app.controller("myCtrl",function($scope,$http){
+            $http({
+                method:'get',
+                url:"/index"
+            }) .then(function success(result){
+                    console.log(result.data.proExperience.project[0].module.modules);
+                    $scope.experiences=result.data.experience;
+                    $scope.introduce=result.data.introduce;
+                    $scope.proExperience=result.data.proExperience;
+                    $scope.technology=result.data.technology;
+                    },
+                    function error (){}
+                );
+        });
+    </script>
+    <style>
+        #tab {
+            font-size: 100%;
+            width: 50%;
+            font-weight: bold;
+            text-algn: center
+        }
+        #tab1 {
+            font-size: 70%;
+            width: 50%;
+            font-weight: bold;
+            text-algn: center
+        }
+        #line {
+            width: 50%;
+            height: 2px;
+            background-color: #000
+        }
+        h3{
+
+            color: burlywood;
+        }
+        h2{
+            color: cadetblue;
+        }
+        table{
+            background-color: aquamarine;
+        }
+        #tab {
+            fbackground-color: antiquewhite;
+        }
+        /*body{*/
+            /*background-color: antiquewhite;*/
+        /*}*/
+    </style>
+</head>
+<body ng-app="myApp" ng-controller="myCtrl">
+<div id="div1">
+    <table align="center" id="tab">
+        <h2 align="center">个 人 介 绍</h2>
+        <hr id="line">
+        <tr><td>姓名 : {{introduce.name}}</td><td>籍贯 : {{introduce.nativePlace}}</td><td>专业 : {{introduce.profession}}</td> </tr>
+        <tr><td>性别 : {{introduce.sex}}</td><td>学历 : {{introduce.education}}</td><td>毕业院校 : {{introduce.school}}</td></tr>
+        <tr><td>年龄 : {{introduce.age}}</td><td>联系电话 : {{introduce.phone}}</td><td>邮箱  : {{introduce.email}}</td></tr>
+    </table>
+
+    <table align="center" id="tab">
+        <h2 align="center">专 业 技 能</h2>
+        <hr id="line">
+        <tr><td>主语言 : {{technology.language[0]}}</td><td>副语言 : {{technology.language[1]}}</td></tr>
+        <tr ng-repeat="x in technology.technique">
+            <td>{{x}}</td>
+        </tr>
+    </table>
+
+    <table align="center" id="tab">
+        <h2 align="center">工 作 经 验</h2>
+        <hr id="line">
+        <tr ng-repeat="entity in experiences.company">
+            <td>{{entity.time}}</td>
+            <td>{{entity.cname}}</td>
+            <td>{{entity.rank}}</td>
+        </tr>
+    </table>
+    <h2 align="center">项 目 经 验</h2>
+    <table align="center" id="tab1"  ng-repeat="pro in proExperience.project">
+        <hr id="line">
+        <tr>
+
+            <td><h3 >项目名称</h3>{{pro.pname}}</td>
+        </tr>   <tr>
+
+        <td><h3>项目描述</h3>{{pro.describe}}</td>
+    </tr><tr>
+
+        <td><h3>开发环境</h3>{{pro.selection}}</td>
+    </tr>
+        <tr>
+
+            <td><h3>技术选型</h3>{{pro.environment}}</td>
+        </tr>
+
+        <tr ng-repeat="m in pro.module">
+
+            <td><h3>负责模块</h3>{{m.modules}}</td>
+        </tr>
+    </table>
+</div>
+</body>
+</html>
